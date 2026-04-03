@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Numerology Calculator</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 20px;
+        background-color: #f5f5f5;
+    }
+
+    h1 {
+        color: #b22222;
+    }
+
+    input {
+        padding: 10px;
+        width: 250px;
+        font-size: 16px;
+        margin: 10px;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #b22222;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .result {
+        margin-top: 20px;
+        font-size: 18px;
+    }
+
+    .bold {
+        font-weight: bold;
+        font-size: 24px;
+        color: green;
+    }
+
+    table {
+        margin: 20px auto;
+        border-collapse: collapse;
+        background: white;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 8px 12px;
+    }
+
+    th {
+        background-color: #b22222;
+        color: white;
+    }
+
+    img {
+        max-width: 90%;
+        margin-top: 20px;
+        border-radius: 10px;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>NUMEROLOGY</h1>
+
+<p>
+Numerology is the ancient science of numbers that reveals hidden meanings behind names and numbers. 
+Each letter has a numeric value, and by adding them together, we can determine whether a name is favorable.
+</p>
+
+<input type="text" id="nameInput" placeholder="Enter Name or Mobile Number">
+<br>
+<button onclick="calculateNumerology()">Calculate</button>
+
+<div class="result" id="result"></div>
+
+<h2>Alphabet Numerology Chart</h2>
+
+<table>
+<tr><th>Letters</th><th>Number</th></tr>
+<tr><td>A, J, I, Y, Q</td><td>1</td></tr>
+<tr><td>B, K, R</td><td>2</td></tr>
+<tr><td>C, G, L, S</td><td>3</td></tr>
+<tr><td>D, M, T</td><td>4</td></tr>
+<tr><td>E, H, N, X</td><td>5</td></tr>
+<tr><td>U, V, W</td><td>6</td></tr>
+<tr><td>O, Z</td><td>7</td></tr>
+<tr><td>F, P</td><td>8</td></tr>
+</table>
+
+<h2>Compatibility Chart</h2>
+
+<img src="chart.jpg" alt="Numerology Compatibility Chart">
+
+<script>
+
+const numerologyMap = {
+    A:1, J:1, I:1, Y:1, Q:1,
+    B:2, K:2, R:2,
+    C:3, G:3, L:3, S:3,
+    D:4, M:4, T:4,
+    E:5, H:5, N:5, X:5,
+    U:6, V:6, W:6,
+    O:7, Z:7,
+    F:8, P:8
+};
+
+function calculateNumerology() {
+    let input = document.getElementById("nameInput").value.toUpperCase();
+    let total = 0;
+    let breakdown = [];
+
+    for (let char of input) {
+        if (numerologyMap[char]) {
+            total += numerologyMap[char];
+            breakdown.push(numerologyMap[char]);
+        } else if (!isNaN(char)) {
+            total += parseInt(char);
+            breakdown.push(char);
+        }
+    }
+
+    let steps = total;
+
+    // Reduce to single digit
+    while (steps > 9) {
+        steps = steps.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b));
+    }
+
+    document.getElementById("result").innerHTML = `
+        <p><b>Breakdown:</b> ${breakdown.join(" + ")}</p>
+        <p><b>Total:</b> ${total}</p>
+        <p><b>Final Number:</b> <span class="bold">${steps}</span></p>
+    `;
+}
+
+</script>
+
+</body>
+</html>
