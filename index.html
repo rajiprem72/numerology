@@ -115,7 +115,15 @@ const numerologyMap = {
 };
 
 function calculateNumerology() {
-    let input = document.getElementById("nameInput").value.toUpperCase();
+
+    let rawInput = document.getElementById("nameInput").value;
+
+    // ✅ Convert to uppercase (handles lower/mixed case)
+    let input = rawInput.toUpperCase();
+
+    // ✅ Remove spaces, dots, special characters
+    input = input.replace(/[^A-Z0-9]/g, "");
+
     let total = 0;
     let breakdown = [];
 
@@ -129,17 +137,26 @@ function calculateNumerology() {
         }
     }
 
-    let steps = total;
+    let reducedSteps = [total];
+    let finalNumber = total;
 
-    // Reduce to single digit
-    while (steps > 9) {
-        steps = steps.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b));
+    // ✅ Reduce to single digit
+    while (finalNumber > 9) {
+        finalNumber = finalNumber
+            .toString()
+            .split('')
+            .reduce((a, b) => parseInt(a) + parseInt(b));
+
+        reducedSteps.push(finalNumber);
     }
 
     document.getElementById("result").innerHTML = `
+        <p><b>Original Input:</b> ${rawInput}</p>
+        <p><b>Processed Input:</b> ${input}</p>
         <p><b>Breakdown:</b> ${breakdown.join(" + ")}</p>
         <p><b>Total:</b> ${total}</p>
-        <p><b>Final Number:</b> <span class="bold">${steps}</span></p>
+        <p><b>Reduction Steps:</b> ${reducedSteps.join(" → ")}</p>
+        <p><b>Final Number:</b> <span class="bold">${finalNumber}</span></p>
     `;
 }
 
